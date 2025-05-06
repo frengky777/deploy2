@@ -1,0 +1,16 @@
+                                         Table "public.invoices"
+   Column    |            Type             | Collation | Nullable |               Default                
+-------------+-----------------------------+-----------+----------+--------------------------------------
+ id          | integer                     |           | not null | nextval('invoices_id_seq'::regclass)
+ customer_id | integer                     |           |          | 
+ amount      | numeric                     |           | not null | 
+ status      | character varying(20)       |           | not null | 
+ issued_at   | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+ date        | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+Indexes:
+    "invoices_pkey" PRIMARY KEY, btree (id)
+Check constraints:
+    "invoices_status_check" CHECK (status::text = ANY (ARRAY['paid'::character varying, 'pending'::character varying]::text[]))
+Foreign-key constraints:
+    "invoices_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
+
